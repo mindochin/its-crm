@@ -1,0 +1,245 @@
+/*
+-----------------------------------------------
+Navigation
+----------------------------------------------- */
+
+/* navigation (horizontal subnavigation)
+----------------------------------------------- */
+div.menu {padding-bottom:2px;padding-top:2px;border-bottom:2px solid #e0e0e0;border-top:2px solid #e0e0e0}
+ul.nav, ul.nav * { margin:0;padding:0;}
+ul.nav {
+  position:relative;
+  max-width:100%;
+  height:2em;
+  background-color: #3A5F74;
+ /* padding:0 15px;*/
+}
+ul.nav.second {background-color: #6F95B6}
+ul.nav.second li a {}
+ul.nav li {
+	cursor:pointer;
+	float:left;
+	text-align:center;
+	list-style-type:none;
+	font-weight:normal;
+}
+ul.nav li ul {
+	cursor:default;
+	width:100%;
+	max-width:100%;
+	position:absolute;
+	height:auto;
+	top:1.5em;
+	background-position:0 0 !important;
+	left:-9000px;
+}
+ul.nav li ul li {
+	padding:0;
+	border:none;
+	width:auto;
+	max-width:none;
+}
+ul.nav li a {
+	color: white;
+	/*background:#999;*/
+	text-decoration:none;
+	display:block;
+	float:left;
+	padding: 0 0.7em;
+	height:2em;
+	line-height:2em;
+
+}
+ul.nav li ul li a {
+	position:relative !important; /* ie Mac */
+	cursor:pointer !important;
+	white-space:nowrap;
+	line-height:2em;
+	height:2em;
+	color:#666;
+	background-position:0 50% !important;
+}
+
+ul.nav li:hover a, ul.nav li a:hover, ul.nav li a:focus{text-decoration: underline; background-color: green; color:white}
+/*ul.nav li a:active {color:#666; background:#A3CC83;}*/
+ul.nav li:hover ul {left:0;z-index:10}
+/*ul.nav li ul, ul.nav li {background:#93B876 !important}*/
+ul.nav li:hover ul li a {color:#444;}
+ul.nav li:hover ul li a:hover {color:#000; background:#fff;}
+ul.nav li:hover ul li a:active {color:#666; background:#fff;}
+
+ul.nav li.active a {}
+ul.nav li.active ul {left:0;z-index:5}
+ul.nav li.active ul,
+ul.nav li.active {background-color:#6F95B6 !important}
+ul.nav li.active ul li a {color:#444; background:#ccc; font-weight:normal;}
+ul.nav li.active ul li a:hover {color:#000; background:#fff;}
+ul.nav li ul li.active a,
+ul.nav li ul li.active a:hover,
+ul.nav li.active:hover ul li a:active {color:#666; background:#fff;}
+
+/* secondary list
+----------------------------------------------- */
+ul.nav li.secondary {
+	float:right;
+	color:#cde;
+	background:transparent !important;
+}
+ul.nav li.secondary span.status {
+	float:left;
+	padding:0 1em;
+	line-height:2.77em;
+	height:2.77em;
+  font-size:0.9em;
+}
+ul.nav li.secondary span.status a {
+	float:none;
+	display:inline;
+	padding:0;
+	height:auto;
+	line-height:normal;
+	color:#cde;
+	background:transparent;
+}
+ul.nav li.secondary span.status a:hover {
+	color:#fff;
+	background:transparent;
+}
+ul.nav li.secondary span.status span {
+	text-transform:capitalize;
+}
+ul.nav li.secondary:hover a {
+
+}
+ul.nav li.secondary:hover a:hover {
+	background:green;
+}
+ul.nav li.secondary:hover a:active {background:#444;}
+
+
+/* Vertical Menu
+------------------------------ */
+
+.menu-v { margin:0;padding:0;/*border-top: 1px solid #ccc; */}
+.menu-v li {padding:1px 0px; list-style: none;background-color: #fafafa;border-bottom: 1px solid #ddd;}
+
+.menu-v li ul { padding-left: 1em; margin-top: 2px; }
+.menu-v li li { border: none; border-top: 1px solid #ccc; }
+.menu-v a { padding: 4px 0; text-decoration: none; display: block; }
+.menu-v li.active a, .menu-v a:hover { background-color: #fff; }
+.menu-v a:hover { text-decoration: underline; }
+.menu-v li.active a {cursor:default; color:#666; text-decoration: none; }
+
+.menu-v.tag li a {
+	background-image: url(../img/fsi-icons/tag_green.png); padding-left: 22px; background-repeat: no-repeat; background-position: 2px 50%
+}
+.phone {
+	background-image: url(../img/fsi-icons/phone_sound.png); padding-left: 22px; background-repeat: no-repeat; background-position: 2px 50%
+}
+.email {
+	background-image: url(../img/fsi-icons/email.png); padding-left: 22px; background-repeat: no-repeat; background-position: 2px 50%
+}
+.top-nav {
+	list-style: none;
+	float: left;	
+	margin: 0px 0px 0px 35px;
+	padding: 0;
+/*	background-color: #2997d4;*/
+}
+
+.top-nav li {
+	float: left;
+	margin: 0 ;
+}
+
+.top-nav li a {
+	display: block;
+	padding: 0px 10px;
+	color: green/*#2997d4;*/
+	
+}
+
+.top-nav li.active a, .top-nav li a:hover, .top-nav li.current a {
+/*	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+*/	display: block;
+	float:left;
+	text-decoration: none;
+	color: white;
+	background-color:#2997D4;
+}
+
+/**
+ * CSS styles for CLinkPager.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ * @version $Id: pager.css 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @since 1.0
+ */
+.pager {
+	 margin: 10px 0;
+	 text-align: right;
+}
+ul.yiiPager
+{
+	font-size:11px;
+	border:0;
+	margin:0;
+	padding:0;
+	line-height:100%;
+	display:inline;
+	font-weight:bold;
+}
+
+ul.yiiPager li
+{
+	display:inline;
+}
+
+ul.yiiPager a:link, ul.yiiPager a:hover,
+ul.yiiPager a:visited
+{
+	/*border:solid 1px #9aafe5;*/
+	background-color: #F8F4F1; border: 1px solid #DED4C9;
+	font-weight:bold;
+	/*color:#0e509e;*/
+	padding:1px 6px;
+	text-decoration:none;
+}
+
+ul.yiiPager .page a
+{
+	/*font-weight:normal;*/
+}
+
+ul.yiiPager a:hover
+{
+	background-color: #F8F4F1;
+	border:solid 1px maroon;
+}
+
+ul.yiiPager .selected a
+{
+	color:#FFFFFF;
+	font-weight:bold;
+    background-color: maroon;
+}
+
+ul.yiiPager .hidden a
+{
+	border:solid 1px #DEDEDE;
+	color:#888888;
+}
+
+/**
+ * Hide first and last buttons by default.
+ */
+ul.yiiPager .first, ul.yiiPager .previous, ul.yiiPager .next,
+ul.yiiPager .last
+{
+	display:none;
+}

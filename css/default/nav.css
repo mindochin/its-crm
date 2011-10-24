@@ -1,0 +1,255 @@
+/*
+-----------------------------------------------
+Navigation
+----------------------------------------------- */
+
+/* navigation (horizontal subnavigation)
+----------------------------------------------- */
+ul.nav,
+ul.nav * { margin:0;padding:0;}
+ul.nav {
+	position:relative;
+	background:#3A5F74;
+	max-width:100%;
+	height:2.5em;
+}
+ul.nav li {position:relative;
+	cursor:pointer;
+	float:left;
+	text-align:center;
+	list-style-type:none;
+	font-weight:normal;
+	top:0;
+	left:0;
+}
+ul.nav li ul {
+	cursor:default;
+	background:#3A5F74;
+	width:100%;
+	max-width:100%;
+	position:absolute;
+	height:auto;
+	top:2.5em;
+	background-position:0 0 !important;
+	left:-9000px;
+}
+ul.nav li ul li {
+	padding:0;
+	border:none;
+	width:auto;
+	max-width:none;
+	float: left;
+}
+
+ul.nav li a {
+	color:#fff;
+	/*background:#3A5F74;
+	font-weight:bold;
+	text-decoration:none;*/
+	display:block;
+	float:left;
+	padding:0 1em;
+	height:2.5em;
+	line-height:2.5em;
+}
+ul.nav li ul li a {
+	width:12em;
+	line-height:2em;
+	height:2em;
+	text-align:left;
+	color:#fff;
+	border-top:1px solid #888;
+
+	position:relative !important;
+	cursor:pointer !important;
+	white-space:nowrap;
+	line-height:2em;
+	height:2em;
+	font-weight:normal;	
+	background-position:0 50% !important;
+}
+
+ul.nav li:hover a,
+ul.nav li a:hover,
+ul.nav li a:focus {color:white; background:green;}
+ul.nav li a:active {background:#6F95B6;}
+ul.nav li:hover ul {left:0;z-index:10}
+/*ul.nav li ul,
+ul.nav li {background:#3A5F74 !important}*/
+ul.nav li:hover ul li a {background: #3A5F74;}
+ul.nav li:hover ul li a:hover {background:green;}
+ul.nav li:hover ul li a:active {background:#6F95B6;}
+
+ul.nav li.active a {color:white; background:#6F95B6;}
+ul.nav li.active ul {left:0;z-index:5}
+ul.nav li.active ul,
+ul.nav li.active {background:#ccc !important}
+ul.nav li.active ul li a {color:#444; background:#ccc; font-weight:normal;}
+ul.nav li.active ul li a:hover {color:#000; background:#fff;}
+ul.nav li ul li.active a,
+ul.nav li ul li.active a:hover,
+ul.nav li.active:hover ul li a:active {color:white; background:#6F95B6;}
+
+ul.nav.second {background-color: #6F95B6}
+
+
+/* navigation (vertical subnavigation)
+----------------------------------------------- */
+ul.nav {
+	/*background:#666;*/
+}
+ul.main li {
+	position:relative;
+	top:0;
+	left:0;
+}
+ul.main li ul {
+	border-top:0;
+}
+ul.main li ul li {
+	float:left;
+}
+ul.main li a {
+	height:2.5em;
+	line-height:2.5em;
+	border:0;
+	color:#fff;
+	background:#3A5F74;
+}
+ul.main li ul li a {
+	width:12em;
+	line-height:2em;
+	height:2em;
+	text-align:left;
+	color:#fff;
+	border-top:1px solid #444;
+	background:#3A5F74;
+}
+ul.main li a:focus {color:#fff; background:red;}
+ul.main li ul li a:hover {
+	color:#fff;
+	background:green;
+}
+ul.main li:hover a {
+	color:#fff;
+	background:green;
+}
+ul.main li:hover ul li a {color:#fff;}
+ul.main li:hover ul li a:hover {color:#fff; background:green;}
+ul.main li:hover a:active {background:#444;}
+ul.main li:hover ul li a:active {color:#fff; background-color: maroon;
+}
+
+
+/* secondary list
+----------------------------------------------- */
+ul.nav li.secondary {
+	float:right;
+	color:#cde;
+	background:transparent !important;
+}
+ul.nav li.secondary span.status {
+	float:left;
+	padding:0 1em;
+	line-height:2.77em;
+	height:2.77em;
+	font-size:0.9em;
+}
+ul.nav li.secondary span.status a {
+	float:none;
+	display:inline;
+	padding:0;
+	height:auto;
+	line-height:auto;
+	color:#cde;
+	background:transparent;
+}
+ul.nav li.secondary span.status a:hover {
+	color:#fff;
+	background:transparent;
+}
+ul.nav li.secondary span.status span {
+	text-transform:capitalize;
+}
+ul.nav li.secondary:hover a {
+	color:#fff;
+	background:#666;
+}
+ul.nav li.secondary:hover a:hover {
+	background:#555;
+}
+ul.nav li.secondary:hover a:active {background:#444;}
+
+/**
+ * CSS styles for CLinkPager.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ * @version $Id: pager.css 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @since 1.0
+*/
+.pager {
+	margin: 10px 0;
+	text-align: right;
+}
+ul.yiiPager
+{
+	font-size:11px;
+	border:0;
+	margin:0;
+	padding:0;
+	line-height:100%;
+	display:inline;
+	font-weight:bold;
+}
+
+ul.yiiPager li
+{
+	display:inline;
+}
+
+ul.yiiPager a:link, ul.yiiPager a:hover,
+ul.yiiPager a:visited
+{
+	/*border:solid 1px #9aafe5;*/
+	background-color: #F8F4F1; border: 1px solid #DED4C9;
+	font-weight:bold;
+	/*color:#0e509e;*/
+	padding:1px 6px;
+	text-decoration:none;
+}
+
+ul.yiiPager .page a
+{
+	/*font-weight:normal;*/
+}
+
+ul.yiiPager a:hover
+{
+	background-color: #F8F4F1;
+	border:solid 1px maroon;
+}
+
+ul.yiiPager .selected a
+{
+	color:#FFFFFF;
+	font-weight:bold;
+    background-color: maroon;
+}
+
+ul.yiiPager .hidden a
+{
+	border:solid 1px #DEDEDE;
+	color:#888888;
+}
+
+/**
+ * Hide first and last buttons by default.
+*/
+ul.yiiPager .first, ul.yiiPager .previous, ul.yiiPager .next,
+ul.yiiPager .last
+{
+	display:none;
+}

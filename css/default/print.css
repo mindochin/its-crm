@@ -1,0 +1,16 @@
+/*
+    Document   : base
+    Created on : 14.05.2009, 22:02:03
+    Author     : vlad
+    Description:
+        Purpose of the stylesheet follows.
+		Based on Aleksej Romanovskij (http://css-framework.ru) and 960.gs
+*/
+@import url("reset.css");
+@import url("text.css");
+
+table {width:99%; margin-bottom:10px;}
+table.color {border:2px solid #000; margin: 0 auto}
+col.colC {width:8em;}
+table.color th,table.color td {padding: 2px;vertical-align: middle;border:1px solid #555;}
+.a-right { text-align: right; }

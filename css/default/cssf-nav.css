@@ -1,0 +1,73 @@
+/* 
+    Document   : cssf-nav
+    Created on : 25.05.2011, 22:07:32
+    Author     : vlad
+    Description:
+        Purpose of the stylesheet follows.
+/* Horizontal Menu
+------------------------------ */
+
+.menu-h { overflow: hidden; border-left: 1px solid #ccc; }
+.menu-h li { float: left; list-style: none; padding: 0 .8em; border-right: 1px solid #ccc; }
+.menu-h a { text-decoration: none; display: block; }
+.menu-h a:hover { text-decoration: underline; }
+
+/* Horizontal Drop Down Menu
+------------------------------ */
+
+.menu-h-d { min-height: 24px; border-left: 1px solid #ccc; }
+.menu-h-d li { float: left; display: block; position: relative; border: 1px solid #ccc; border-width: 1px 1px 1px 0px; list-style: none; }
+.menu-h-d a { text-decoration: none; padding: 2px 10px; display: block; }
+
+.menu-h-d ul { display: none; position: absolute; top: 22px; left: -1px; width: 160px; background: #fff; border: 0; border-bottom: 1px solid #ccc; }
+.menu-h-d ul ul { left: 100%; top: -1px; }
+
+.menu-h-d li li { float: none; border-width: 1px 1px 0px 1px; }
+
+.menu-h-d li:hover { background: #ccc; }
+.menu-h-d a:hover { color: #fff; }
+
+.menu-h-d li:hover ul ul,
+.menu-h-d li:hover ul li:hover ul ul { display: none; }
+
+.menu-h-d li:hover ul,
+.menu-h-d li:hover ul li:hover ul,
+.menu-h-d li:hover ul li:hover ul li:hover ul { display: block; }
+
+/* Horizontal Drop Up Menu
+------------------------------ */
+
+.menu-h-d.d-up ul { bottom: 22px; }
+.menu-h-d.d-up ul ul { bottom: -1px; }
+
+/* Vertical Menu
+------------------------------ */
+
+.menu-v { border-top: 1px solid #ccc; }
+.menu-v li { padding: 2px 0; list-style: none; border-bottom: 1px solid #ccc; }
+.menu-v li ul { padding-left: 1em; margin-top: 2px; }
+.menu-v li li { border: none; border-top: 1px solid #ccc; }
+.menu-v a { text-decoration: none; display: block; }
+.menu-v a:hover { text-decoration: underline; }
+
+/* Vertical Drop Down Menu
+------------------------------ */
+
+.menu-v-d { border-top: 1px solid #ccc; }
+.menu-v-d li { padding: 2px 0; display: block; position: relative; border: 1px solid #ccc; border-width: 0px 1px 1px 1px; list-style: none; }
+.menu-v-d li a { display: block; position: relative; text-decoration: none; padding-left: 10px; }
+
+.menu-v-d li:hover { background: #ccc; }
+.menu-v-d a:hover { color: #fff; }
+
+.menu-v-d li ul { display: none; position: absolute; top: -1px; border-top: 1px solid #ccc; left: 100%; width: 100%; background: #fff; }
+.menu-v-d li ul li { background: #fff; }
+
+.menu-v-d li:hover ul ul,
+.menu-v-d li:hover ul li:hover ul ul { display: none; }
+
+.menu-v-d li:hover ul,
+.menu-v-d li:hover ul li:hover ul,
+.menu-v-d li:hover ul li:hover ul li:hover ul { display: block; }
+
+.menu-v-d ul ul { left: 100%; }
