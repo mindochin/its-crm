@@ -6,7 +6,10 @@
 		'columns' => array(
 			'id',
 			'date',
-			'name',
+			'num',
+			'sum',
+			array('header'=>'Аст #','name'=>'act_id'),
+			array('name'=>'is_sign','value'=>'Invoices::model()->itemAlias("is_sign",$data->is_sign)'),
 			array(
 				'class' => 'MyButtonColumn',
 				'deleteButtonUrl' => 'Yii::app()->createUrl("invoicesfkt/delete", array("id"=>$data->id))',

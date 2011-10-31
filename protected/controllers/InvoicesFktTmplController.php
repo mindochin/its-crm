@@ -37,9 +37,9 @@ class InvoicesFktTmplController extends Controller {
 		// $this->performAjaxValidation($model);
 
 		if (isset($_POST['InvoicesFktTmpl'])) {
-			$model->attributes = $_POST['InvoicesFktTmpl'];
-			if ($model->save()) {
-				$msg = 'Шаблон счета #' . $model->id . ' - ' . $model->name . ' создан';
+			$model->attributes = $_POST['InvoicesFktTmpl'];			
+			if ($model->save()) {				
+				$msg = 'Шаблон счета-фактуры #' . $model->id . ' - ' . $model->name . ' создан';
 				Yii::app()->user->setFlash('success', $msg);
 				Yii::app()->logger->write($msg);
 				$this->redirect(array('view', 'id' => $model->id));
@@ -65,7 +65,7 @@ class InvoicesFktTmplController extends Controller {
 		if (isset($_POST['InvoicesFktTmpl'])) {
 			$model->attributes = $_POST['InvoicesFktTmpl'];
 			if ($model->save()) {
-				$msg = 'Шаблон счета #' . $model->id . ' - ' . $model->name . ' изменён';
+				$msg = 'Шаблон счета-фактуры #' . $model->id . ' - ' . $model->name . ' изменён';
 				Yii::app()->user->setFlash('success', $msg);
 				Yii::app()->logger->write($msg);
 				$this->redirect(array('view', 'id' => $model->id));
@@ -86,15 +86,15 @@ class InvoicesFktTmplController extends Controller {
 		if (Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 			$model = $this->loadModel($id);
-			if (null == Invoices::model()->findByAttributes(array('template_id' => (int) $id))) {
+			if (null == InvoicesFkt::model()->findByAttributes(array('template_id' => (int) $id))) {
 				if ($model->delete()) {
-					$msg = 'Шаблон счета #' . $model->id . ' - ' . $model->name . ' удалён';
+					$msg = 'Шаблон счета-фактуры #' . $model->id . ' - ' . $model->name . ' удалён';
 					Yii::app()->user->setFlash('success', $msg);
 					Yii::app()->logger->write($msg);
 				}
 			}
 			else
-				Yii::app()->user->setFlash('notice', 'Удаление невозможно. Шаблон счета #' . $model->id . ' - ' . $model->name . ' используется!');
+				Yii::app()->user->setFlash('notice', 'Удаление невозможно. Шаблон счета-фактуры #' . $model->id . ' - ' . $model->name . ' используется!');
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if (!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));

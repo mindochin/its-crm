@@ -43,12 +43,12 @@ class InvoicesFkt extends CActiveRecord
 			array('id, order_id, client_id,act_id,template_id', 'numerical', 'integerOnly'=>true),
 			array('sum', 'numerical'),
 			array('num', 'length', 'max'=>100),
-			array('cargo_send, cargo_addr', 'length', 'max'=>255),
-			array('date, note, cargo_send, cargo_send', 'default', 'value' => null),
+			array('cargo_send_info, cargo_addr_info', 'length', 'max'=>500),
+			array('date, cargo_send, cargo_send, cargo_send_info, cargo_addr_info', 'default', 'value' => null),
 			//array('date, note', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, order_id, client_id, act_id, template_id, date, sum, num, note, is_sign, cargo_send, cargo_addr', 'safe', 'on'=>'search'),
+			array('id, order_id, client_id, act_id, template_id, date, sum, num, is_sign, cargo_send, cargo_addr, cargo_send_info, cargo_addr_info', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,8 +81,9 @@ class InvoicesFkt extends CActiveRecord
 			'sum' => 'Сумма',
 			'num' => '№№',
 			'cargo_send' =>'Грузоотправитель',
+			'cargo_send_info' => 'Инфо грузоотправителя',
 			'cargo_addr' =>'Грузополучатель',
-			'note' => 'Примечание',
+			'cargo_addr_info' => 'Инфо грузополучателя',
 			'is_sign'=>'Подписан',
 		);
 	}
@@ -105,11 +106,12 @@ class InvoicesFkt extends CActiveRecord
 		$criteria->compare('template_id',$this->template_id);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('sum',$this->sum);
-		$criteria->compare('num',$this->num,true);
-		$criteria->compare('note',$this->note,true);
+		$criteria->compare('num',$this->num,true);		
 		$criteria->compare('is_sign',$this->is_sign);
 		$criteria->compare('cargo_send',$this->cargo_send,true);
+		$criteria->compare('cargo_send_info',$this->cargo_send_info,true);
 		$criteria->compare('cargo_addr',$this->cargo_addr,true);
+		$criteria->compare('cargo_addr_info',$this->cargo_addr_info,true);
 
 		$criteria->with = array('order', 'client', 'act');
 

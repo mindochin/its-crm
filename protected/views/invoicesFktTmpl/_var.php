@@ -5,10 +5,10 @@ echo "{inv_date} => Дата</br>\n";
 echo "{inv_num} => Номер</br>\n";
 echo "{works} => Перечень оказываемых услуг. Состоит из:</br>\n";
 echo "&nbsp;&nbsp;&nbsp;&nbsp;{id} => номер строки по порядку, {name} => наименование, {date} => дата, {location} => место,</br>
-	&nbsp;&nbsp;&nbsp;&nbsp;{quantity} => кол-во, {сost} => стоимость, {sum} => сумма</br>\n";
-echo "{works_num} => Всего работ/услуг";
-echo "{cargo_addr} => Грузополучатель";
-echo "{cargo_send} => Грузопоотправитель";
+	&nbsp;&nbsp;&nbsp;&nbsp;{quantity} => кол-во, {unit} => ед.изм., {сost} => стоимость, {sum} => сумма</br>\n";
+echo "{works_num} => Всего работ/услуг</br>\n";
+echo "{cargo_addr} => Грузополучатель</br>\n";
+echo "{cargo_send} => Грузопоотправитель</br>\n";
 echo "{client_name} => Название организации заказчика</br>\n";
 echo "{client_fullname} => Полное название организации заказчика</br>\n";
 echo "{client_requisite} => Реквизиты заказчика</br>\n";

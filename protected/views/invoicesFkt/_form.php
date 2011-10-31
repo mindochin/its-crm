@@ -67,22 +67,27 @@
 		<?php echo $form->dropDownList($model,'cargo_addr',$model->itemAlias('cargo'),array('empty'=>'')); ?>
 	</div>
 
+	<div class="row" id="InvoicesFkt_cargo_addr_info" style="display: none;">
+		<?php echo $form->labelEx($model,'cargo_addr_info'); ?>
+		<?php echo $form->textArea($model,'cargo_addr_info',array('rows'=>3, 'cols'=>50)); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'cargo_send'); ?>
 		<?php //echo $form->checkBox($model,'is_paid',array('uncheckValue'=>'','checked'=>$model->is_paid=='yes'?true:false)) ?>
 		<?php echo $form->dropDownList($model,'cargo_send',$model->itemAlias('cargo'),array('empty'=>'')); ?>
 	</div>
 
+	<div class="row" id="InvoicesFkt_cargo_send_info" style="display: none;">
+		<?php echo $form->labelEx($model,'cargo_send_info'); ?>
+		<?php echo $form->textArea($model,'cargo_send_info',array('rows'=>3, 'cols'=>50)); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'is_sign'); ?>
 		<?php //echo $form->checkBox($model,'is_paid',array('uncheckValue'=>'','checked'=>$model->is_paid=='yes'?true:false)) ?>
 		<?php echo $form->dropDownList($model,'is_sign',$model->itemAlias('is_sign')); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'note'); ?>
-		<?php echo $form->textArea($model,'note',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
+	</div>	
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
@@ -160,6 +165,17 @@ function change_act()
 			});
 		});
 	};
-	$('select[name=\"InvoicesFkt[act_id]\"]').change(change_act);
+function change_cargo() {
+
+	var id = $(this).attr('id');
+	if ($(this).val() == 'other') $('#'+id+'_info').show();
+	else $('#'+id+'_info').hide();
+//
+}
+function alertObj(o){var s='';for(k in o){s+=k+': '+o[k]+'\\r\\n';}alert(s);};
+	$('select[name=\"InvoicesFkt[act_id]\"]').change(change_act).change();
 	$('select[name=\"InvoicesFkt[order_id]\"]').change(change_order);
+	$('select[name=\"InvoicesFkt[cargo_send]\"]').change(change_cargo).change();
+	$('select[name=\"InvoicesFkt[cargo_addr]\"]').change(change_cargo).change();
+	
 ");

@@ -41,6 +41,7 @@ class InvoicesFktController extends Controller {
 
 		if (isset($_POST['InvoicesFkt'])) {
 			$model->attributes = $_POST['InvoicesFkt'];
+			$model->client_id=$model->order->client_id;
 			if ($model->save()) {
 				$msg = 'Счёт-фактура #' . $model->id . ' для Заказа #' . $model->order_id . ' ' . $model->order->name . ' создан';
 				Yii::app()->user->setFlash('success', $msg);
@@ -73,6 +74,7 @@ class InvoicesFktController extends Controller {
 
 		if (isset($_POST['InvoicesFkt'])) {
 			$model->attributes = $_POST['InvoicesFkt'];
+			$model->client_id=$model->order->client_id;
 			if ($model->save()) {
 				$msg = 'Счёт-фактура #' . $model->id . ' для Заказа #' . $model->order_id . ' ' . $model->order->name . ' изменён';
 				Yii::app()->user->setFlash('success', $msg);
@@ -226,7 +228,7 @@ class InvoicesFktController extends Controller {
 			Yii::app()->user->setFlash('error', 'Основные параметры для счёта #' . $data['invoice_fkt']->id . ' пусты');
 			$this->redirect(array('view', 'id' => $data['invoice_fkt']->id));
 		}
-		$data['body'] = $this->_tmpl_body($data, InvoicesTmpl::model()->findByPk($data['invoice_fkt']->template_id));
+		$data['body'] = $this->_tmpl_body($data, InvoicesFktTmpl::model()->findByPk($data['invoice_fkt']->template_id));
 		$this->layout = false;
 		$this->render('html', array(
 			'data' => $data,
@@ -240,15 +242,22 @@ class InvoicesFktController extends Controller {
 	 * @return <type>
 	 */
 	private function _tmpl_body($data, $tmpl) {
-		$numstr = new num2str;
+		$numstr = new num2str;		
+		if ($data['invoice_fkt']['cargo_addr']=='self') $cargo_addr='Он же';
+		elseif ($data['invoice_fkt']['cargo_addr']=='other') $cargo_addr=$data['invoice_fkt']['cargo_addr_info'];
+		else $cargo_addr='---';
+		if ($data['invoice_fkt']['cargo_send']=='self') $cargo_send='Он же';
+		elseif ($data['invoice_fkt']['cargo_send']=='other') $cargo_send=$data['invoice_fkt']['cargo_send_info'];
+		else $cargo_send='---';
 		$map = array(
-			//'{name}' => $data['act']->name,
 			'inv_sum_num' => $data['invoice_fkt']['sum'],
 			'inv_sum' => $numstr->convert($data['invoice_fkt']['sum']),
 			'inv_date' => $data['invoice_fkt']['date'] ? (Yii::app()->dateFormatter->format('d MMMM yyyy', $data['invoice_fkt']['date'], TRUE)) : ('"___" _________ 20 __ г.'),
 			'inv_num' => $data['invoice_fkt']['num'],
 			'works' => $data['works'],
 			'works_num' => count($data['works']),
+			'cargo_addr'=> $cargo_addr,
+			'cargo_send'=> $cargo_send,
 			'client_name' => $data['client']['name'] ? ($data['client']['name']) : ('____________________'),
 			'client_fullname' => ($data['client']['fullname']) ? ($data['client']['fullname']) : ('____________________'),
 			'client_requisite' => nl2br($data['client']['requisite']),

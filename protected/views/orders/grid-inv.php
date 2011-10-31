@@ -7,6 +7,7 @@
 			'id',
 			'date',
 			'num',
+			'sum',
 			array('header'=>'Аст #','name'=>'act_id'),
 			array('name'=>'is_paid','value'=>'Invoices::model()->itemAlias("is_paid",$data->is_paid)'),
 			array('name'=>'is_sign','value'=>'Invoices::model()->itemAlias("is_sign",$data->is_sign)'),

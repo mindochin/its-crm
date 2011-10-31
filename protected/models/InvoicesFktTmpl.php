@@ -24,7 +24,7 @@ class InvoicesFktTmpl extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{invoices_tmpl}}';
+		return '{{invoices_fkt_tmpl}}';
 	}
 
 	/**
@@ -35,7 +35,7 @@ class InvoicesFktTmpl extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('body', 'required'),
+			array('name, body', 'required'),
 			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -51,6 +51,9 @@ class InvoicesFktTmpl extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'order' => array(self::BELONGS_TO, 'Orders', 'order_id'),
+			'client' => array(self::BELONGS_TO, 'Clients', 'client_id'),
+			'act' => array(self::BELONGS_TO, 'Acts', 'act_id'),
 		);
 	}
 

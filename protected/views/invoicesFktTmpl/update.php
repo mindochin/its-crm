@@ -19,7 +19,7 @@ $('.search-button').click(function(){
 ");
 ?>
 
-<h1>Изменить шаблон счёта #<?php echo $model->id; ?></h1>
+<h1>Изменить шаблон счёта-фактуры #<?php echo $model->id; ?></h1>
 
 <?php echo CHtml::link('Переменные для подстановки','#',array('class'=>'search-button')); ?>
 <div class="box search-form" style="display:none">

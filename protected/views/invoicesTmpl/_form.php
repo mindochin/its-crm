@@ -5,7 +5,7 @@
 		'id' => 'invoices-tmpl-form',
 		'enableAjaxValidation' => false,
 		'focus' => array($model, 'name'),
-			));
+	));
 	?>
 
 	<p class="note">Поля с <span class="required">*</span> необходимы.</p>

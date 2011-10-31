@@ -51,10 +51,7 @@ $('.search-form form').submit(function(){
 		'order_id',
 		'client_id',
 		'date',
-		'sum',		
-		/*
-		'note',
-		*/
+		'sum',
 		array(
 			'class'=>'MyButtonColumn',
 		),

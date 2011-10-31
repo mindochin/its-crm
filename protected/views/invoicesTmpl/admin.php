@@ -22,7 +22,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Управление шаблонами актов</h1>
+<h1>Управление шаблонами счетов</h1>
 
 <?php $this->widget('application.extensions.yii-flash.Flash', array(
     'keys'=>array('success','error','notice'),
@@ -41,7 +41,7 @@ $('.search-form form').submit(function(){
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'acts-tmpl-grid',
+	'id'=>'invoices-tmpl-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(

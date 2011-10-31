@@ -8,11 +8,11 @@ $this->menu=array(
 	array('label'=>'Создать шаблон', 'url'=>array('create')),
 	array('label'=>'Изменить шаблон', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Удалить шаблон', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Действительно удалить?')),
-	array('label'=>'Управление шаблонами актов', 'url'=>array('admin')),
+	array('label'=>'Управление шаблонами счётов-фактур', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Просмотр шаблона акта #<?php echo $model->id; ?></h1>
+<h1>Просмотр шаблона счёта-фактуры #<?php echo $model->id; ?></h1>
 
 <?php $this->widget('application.extensions.yii-flash.Flash', array(
     'keys'=>array('success','error','notice'),
