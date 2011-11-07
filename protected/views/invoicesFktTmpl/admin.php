@@ -22,7 +22,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Управление шаблонами актов</h1>
+<h1>Управление шаблонами счетов-фактур</h1>
 
 <?php $this->widget('application.extensions.yii-flash.Flash', array(
     'keys'=>array('success','error','notice'),

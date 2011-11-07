@@ -6,6 +6,7 @@
  * The followings are the available columns in table '{{works}}':
  * @property integer $id
  * @property string $date
+ * @property integer $client_id
  * @property integer $order_id
  * @property integer $act_id
  * @property string $name
@@ -43,16 +44,17 @@ class Works extends CActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cost, unit, quantity,group,order_id', 'required'),
-			array('order_id, act_id, quantity', 'numerical', 'integerOnly' => true),
+			array('name, cost, unit, quantity, group, client_id', 'required'),
+			array('client_id, order_id, act_id, quantity', 'numerical', 'integerOnly' => true),
 			array('cost', 'numerical'),
 			array('name, unit', 'length', 'max' => 255),
 			array('group', 'length', 'max' => 8),
 			array('location', 'length', 'max' => 100),
 			array('date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => true,),
+			array('order_id, act_id, date, location','default', 'setOnEmpty' => true, 'value' => null),			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, date, order_id, act_id, name, unit, cost, group, quantity, location, sum', 'safe', 'on' => 'search'),
+			array('id, date, client_id, order_id, act_id, name, unit, cost, group, quantity, location, sum', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -63,6 +65,9 @@ class Works extends CActiveRecord {
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'order' => array(self::BELONGS_TO, 'Orders', 'order_id'),
+			'client' => array(self::BELONGS_TO, 'Clients', 'client_id'),
+			'act' => array(self::BELONGS_TO, 'Acts', 'act_id'),
 		);
 	}
 
@@ -73,6 +78,7 @@ class Works extends CActiveRecord {
 		return array(
 			'id' => 'ID',
 			'date' => 'Дата',
+			'client_id' =>'Клиент',
 			'order_id' => 'Заказ №',
 			'act_id' => 'Акт №',
 			'name' => 'Наименование',
@@ -97,6 +103,7 @@ class Works extends CActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('date', $this->date, true);
+		$criteria->compare('client_id', $this->client_id);
 		$criteria->compare('order_id', $this->order_id);
 		$criteria->compare('act_id', $this->act_id);
 		$criteria->compare('name', $this->name, true);
@@ -109,6 +116,8 @@ class Works extends CActiveRecord {
 
 		$criteria->select = '*, (cost*quantity) as sum';
 
+		$criteria->with=array('order','client','act');
+		
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 			'sort' => array('defaultOrder' => 't.id DESC'),
@@ -135,6 +144,10 @@ class Works extends CActiveRecord {
 				'services' => 'Работы\Услуги',
 				'goods' => 'Материалы\Оборудование',
 			),
+			'unit' =>array(
+				'шт.'=>'шт.',
+				'уп.'=>'уп.',
+			)
 		);
 		if ($item == NULL)
 			return isset($_items[$type]) ? $_items[$type] : false;

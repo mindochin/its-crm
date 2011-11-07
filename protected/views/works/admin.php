@@ -48,6 +48,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'id',
 		'date',
+		array('name'=>'client_id','value'=>'$data->client_id','filter'=> CHtml::listData(Clients::model()->findAll(array('order'=>'name')), 'id', 'name')),
 		'order_id',
 		'act_id',
 		'name',

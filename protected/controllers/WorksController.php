@@ -36,12 +36,15 @@ class WorksController extends Controller {
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_GET['byorder']) and is_numeric($_GET['byorder']))
+		if (isset($_GET['byorder']) and is_numeric($_GET['byorder'])) {
 			$model->order_id = (int) $_GET['byorder'];
+			$model->client_id = $model->order->client_id;
+		}
 
-		if (isset($_POST['Works'])) {
+		if (isset($_POST['Works'])) {			
 			$model->attributes = $_POST['Works'];
 			if ($model->save()) {
+//				Dumper::d($model->attributes);die;
 				$msg = 'Услуга #' . $model->id . ' - ' . $model->name . ' создана';
 				Yii::app()->user->setFlash('success', $msg);
 				Yii::app()->logger->write($msg);
@@ -156,6 +159,22 @@ class WorksController extends Controller {
 		if (isset($_POST['ajax']) && $_POST['ajax'] === 'works-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
+		}
+	}
+	function actionRecalc() {
+		$all=Works::model()->findAll('client_id=0');
+		foreach ($all as $key => $value) {
+			Dumper::d($value);
+			$model=$this->loadModel($value->id);
+			if (!isset ($model->client_id) and $model->client_id==='0') {
+				echo $model->id.' '.$model->order->client->name;
+				echo '<br>';
+				$model->client_id=$model->order->client->id;
+				$model->save();				
+			}
+			else {
+			echo '----'.$model->id.' '.$model->order->client->name;
+			echo '<br>';}
 		}
 	}
 

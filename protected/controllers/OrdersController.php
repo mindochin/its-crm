@@ -100,12 +100,13 @@ class OrdersController extends Controller {
 					Acts::model()->deleteAll('order_id=' . $id);
 					Invoices::model()->deleteAll('order_id=' . $id);
 					InvoicesFkt::model()->deleteAll('order_id=' . $id);
+					Works::model()->deleteAll('order_id=' . $id);
 
-					$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' удалён';
+					$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' и документы по нему удалёны';
 
 					$model->delete();
 
-					$transaction->commit();
+//					$transaction->commit();
 					
 					Yii::app()->user->setFlash('success', $msg);
 					Yii::app()->logger->write($msg);
