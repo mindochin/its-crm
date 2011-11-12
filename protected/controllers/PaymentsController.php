@@ -146,5 +146,52 @@ class PaymentsController extends Controller {
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionChangeClient() {
+		$return_msg = '';
+//		Dumper::d($_POST['order_id']);die;
+		if (Yii::app()->request->isAjaxRequest) {
+			if (is_numeric($_POST['client_id'])) {
+				$q = Orders::model()->open()->listData((int) $_POST['client_id']);
+				if (count($q) > 0) {
+					foreach ($q as $key => $value) {
+						$haOptions[] = array('value' => $key, 'text' => $value);
+					}
+					$return_msg = json_encode($haOptions);
+				}
+				else
+					$return_msg=json_encode('no');
+			} else {
+				$return_msg = '[{"value":"",text:"Некорректный формат запроса"}]';
+			}
+		}
+		else {
+			$return_msg = '[{"value":"","text":"Некорректный формат запроса"}]';
+		}
+		echo ($return_msg);
+	}
+	public function actionChangeOrder() {
+		$return_msg = '';
+//		Dumper::d($_POST['order_id']);die;
+		if (Yii::app()->request->isAjaxRequest) {
+			if (is_numeric($_POST['order_id'])) {
+				$q = Invoices::model()->listData((int) $_POST['order_id']);
+				if (count($q) > 0) {
+					foreach ($q as $key => $value) {
+						$haOptions[] = array('value' => $key, 'text' => $value);
+					}
+					$return_msg = json_encode($haOptions);
+				}
+				else
+					$return_msg=json_encode('no');
+			} else {
+				$return_msg = '[{"value":"","text":"Некорректный формат запроса"}]';
+			}
+		}
+		else {
+			$return_msg = '[{"value":"",text:"Некорректный формат запроса"}]';
+		}
+		echo ($return_msg);
+	}
 
 }

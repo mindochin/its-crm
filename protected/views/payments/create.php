@@ -5,11 +5,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Payments', 'url'=>array('index')),
-	array('label'=>'Manage Payments', 'url'=>array('admin')),
+	array('label'=>'Управление платежами', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Payments</h1>
+<h1>Создать платёж</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

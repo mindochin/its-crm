@@ -65,8 +65,24 @@
 	<div class="row">
 		<?php echo $form->labelEx($model, 'sum'); ?>
 		<?php if ($model->order->fixpay ==null) echo $form->textField($model, 'sum'); else echo $form->textField($model, 'sum',array('readonly'=>'readonly')); ?>
-	</div>	
-
+	</div>
+	
+<?php Yii::app()->clientScript->registerScript('visible-body', "
+$('.visible-body').click(function(){
+	$('.body-form').toggle();
+	return false;
+});
+");?>
+	<div class="row">
+		<?php echo CHtml::label('&nbsp','wysiwyg'); ?>
+		<?php echo CHtml::link('Показать форму','#',array('class'=>'visible-body')); ?>
+	</div>
+<?//echo CHtml::link('Изменить текст','#',array('class'=>'act-body'));
+if (is_null($model->body) or empty($model->body)) :?>
+	<div class="body-form" style="display:none">
+<?php else :?>
+	<div class="body-form">
+<?php endif;?>
 	<div class="row">
 		<?php echo CHtml::label('&nbsp', 'wysiwig'); ?>
 		<?php echo CHtml::button('Обновить окно редактора', array('type' => 'button', 'class' => 'button', 'id' => 'wysiwyg')); ?>
@@ -87,6 +103,8 @@
 		));
 		?>
 	</div>
+		 
+</div><!-- act-body-form -->
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>

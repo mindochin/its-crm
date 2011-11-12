@@ -48,10 +48,11 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
 		'num',
-		'order_id',
-		'client_id',
+		array('name'=>'order_id','value'=>'$data->order->name','filter'=> Orders::model()->listData()),
+		array('name'=>'client_id','value'=>'$data->client->name','filter'=> CHtml::listData(Clients::model()->findAll(), 'id', 'name')),
 		'date',
 		'sum',
+		array('name'=>'is_sign','value'=>'InvoicesFkt::model()->itemAlias("is_sign",$data->is_sign)'),
 		array(
 			'class'=>'MyButtonColumn',
 		),

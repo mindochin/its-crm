@@ -7,7 +7,7 @@
 			));
 	?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля с <span class="required">*</span> обязательны.</p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -30,12 +30,13 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model, 'client_id'); ?>
-		<?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Clients::model()->findAll(),'id','name')); ?>
+		<?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Clients::model()->findAll(),'id','name'),array('empty'=>'')); ?>
+		<span class="note" style="display: block" id="ajax_mess"></span>
 	</div>
 	
 	<div class="row">
 		<?php echo $form->labelEx($model, 'order_id'); ?>
-		<?php echo $form->dropDownList($model, 'order_id', Orders::model()->listData(), array('encode' => false,'empty'=>'')); ?>
+		<?php echo $form->dropDownList($model, 'order_id', array());  //Orders::model()->open()->listData(), array('encode' => false,'empty'=>'')); ?>
 	</div>
 	<?php if (!$model->isNewRecord) {
 		?>
@@ -82,3 +83,38 @@
 	<?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<?php		Yii::app()->clientScript->registerScript('change_client', "
+function change_client()
+	{
+		var code = {
+			'client_id' : $('select[name=\"Works[client_id]\"] option:selected').val(),
+		}
+
+		$.ajax({
+			type: 'POST',
+			//dataType: 'JSON',
+			data: code,
+			url: '" . $this->createUrl('works/changeclient') . "',
+			beforeSend: (function(msg){ $('#ajax_mess').text('ЖДИТЕ... '+msg.responseCode); }),
+			success: function(msg, code)
+			{//alert(msg);
+				if (msg!='null')
+				{
+					$('#ajax_mess').text('Готово!');
+					$(\"select[name='Works[order_id]'] option\").remove();
+					$.each(eval(msg),function(i,item)	{
+					$(\"select[name='Works[order_id]']\").append('<option value=\"'+item.optionKey+'\">'+item.optionValue+'</option>');
+					});
+				}
+				else
+				{
+					$(\"select[name='Works[order_id]'] option\").remove();
+					$('#ajax_mess').text('Нет заказов.');
+				}				
+			},
+			error: function(msg, stat){ $('#ajax_mess').text('ОШИБКА = '+eval(msg.responseCode)+' = '+stat); },
+		});
+	}
+
+	$('select[name=\"Works[client_id]\"]').change(change_client);
+");

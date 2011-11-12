@@ -177,5 +177,28 @@ class WorksController extends Controller {
 			echo '<br>';}
 		}
 	}
-
+	
+	public function actionChangeClient() {
+		$return_msg = '';
+//		Dumper::d($_POST['order_id']);die;
+		if (Yii::app()->request->isAjaxRequest) {
+			if (is_numeric($_POST['client_id'])) {
+				$q = Orders::model()->open()->listData((int) $_POST['client_id']);
+				if (count($q) > 0) {
+					foreach ($q as $key => $value) {
+						$haOptions[] = array('optionKey' => $key, 'optionValue' => $value);
+					}
+					$return_msg = json_encode($haOptions);
+				}
+				else
+					$return_msg='null';
+			} else {
+				$return_msg = 'Некорректный формат запроса';
+			}
+		}
+		else {
+			$return_msg = 'Некорректный формат запроса';
+		}
+		echo ($return_msg);
+	}
 }

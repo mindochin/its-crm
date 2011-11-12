@@ -4,7 +4,7 @@
 		'dataProvider' => $dtprv,
 //	'filter'=>$model,
 		'columns' => array(
-			'id', 'date', 'amount',
+			'id', 'date', 'sum',
 			'order_id',
 			array('name'=>'client_id','value'=>'$data->client->name'),
 			'invoice_id',

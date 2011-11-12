@@ -91,6 +91,7 @@
 									'active' => (Yii::app()->controller->id == 'config' ? true : false),
 								),
 							),
+							'visible' => Yii::app()->user->checkAccess('rights'),
 //							'active' => (Yii::app()->controller->id == 'config' ? true : false),
 						)
 					),

@@ -40,7 +40,7 @@ class InvoicesFkt extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('act_id, order_id, client_id, template_id, sum, is_sign', 'required'),
-			array('id, order_id, client_id,act_id,template_id', 'numerical', 'integerOnly'=>true),
+			array('id, order_id, client_id, act_id,template_id', 'numerical', 'integerOnly'=>true),
 			array('sum', 'numerical'),
 			array('num', 'length', 'max'=>100),
 			array('cargo_send_info, cargo_addr_info', 'length', 'max'=>500),
@@ -63,6 +63,7 @@ class InvoicesFkt extends CActiveRecord
 			'order' => array(self::BELONGS_TO, 'Orders', 'order_id'),
 			'client' => array(self::BELONGS_TO, 'Clients', 'client_id'),
 			'act' => array(self::BELONGS_TO, 'Acts', 'act_id'),
+			'tmpl' => array(self::BELONGS_TO, 'InvoicesFktTmpl', 'template_id'),
 		);
 	}
 
@@ -154,7 +155,7 @@ class InvoicesFkt extends CActiveRecord
 	public function itemAlias($type, $item=NULL) {
 		$_items = array(
 			'is_sign' => array(
-				'n' => '-', 'y'=>'Подписан'
+				'0' => 'Нет', '1'=>'Подписан'
 			),
 			'cargo' => array(
 				'self' => 'Он же', 'other'=>'Другой'

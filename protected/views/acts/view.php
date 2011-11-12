@@ -22,15 +22,15 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
-
 	'attributes'=>array(
 		'id',
-		'order_id',
-		'client_id',
-		'template_id',
 		'date',
-		'sum',
 		'num',
+		'sum',
+		array('name' => 'order_id', 'value' => $model->order->name),
+		array('name' => 'client_id', 'value' => $model->client->name),
+		array('name' => 'template_id', 'value' => $model->tmpl->name),
+		array('name' => 'is_sign', 'value' => $model->itemAlias("is_sign", $model->is_sign)),		
 		'note',
 		'body:html',
 	),

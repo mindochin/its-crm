@@ -5,8 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Payments', 'url'=>array('index')),
-	array('label'=>'Create Payments', 'url'=>array('create')),
+	array('label'=>'Создать платёж', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,7 +22,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Payments</h1>
+<h1>Управление платежами</h1>
 
 <?php $this->widget('application.extensions.yii-flash.Flash', array(
     'keys'=>array('success','error','notice'),
@@ -31,8 +30,7 @@ $('.search-form form').submit(function(){
 )); ?><!-- flashes -->
 
 <p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+Можно использовать (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b> или <b>=</b>).
 </p>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
@@ -47,17 +45,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
-		'order_id',
-		'client_id',
-		'invoice_id',
-		'date',
-		'amount',
-		/*
-		'note',
-		*/
+		'id','date','sum',
+		array('name'=>'client_id','value'=>'$data->client->name','filter'=> CHtml::listData(Clients::model()->findAll(array('order'=>'name')), 'id', 'name')),
+		array('name'=>'order_id','value'=>'$data->order->name','filter'=> CHtml::listData(Orders::model()->findAll(array('order'=>'name')), 'id', 'name')),		
+		'invoice_id',				
+		'note',		
 		array(
-			'class'=>'CButtonColumn',
+			'class'=>'MyButtonColumn',
 		),
 	),
 )); ?>

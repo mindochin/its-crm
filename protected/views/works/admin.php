@@ -48,15 +48,15 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'id',
 		'date',
-		array('name'=>'client_id','value'=>'$data->client_id','filter'=> CHtml::listData(Clients::model()->findAll(array('order'=>'name')), 'id', 'name')),
-		'order_id',
+		array('name'=>'client_id','value'=>'$data->client->name','filter'=> CHtml::listData(Clients::model()->findAll(array('order'=>'name')), 'id', 'name')),
+		array('name'=>'order_id','value'=>'$data->order_name','filter'=> CHtml::listData(Orders::model()->findAll(array('order'=>'name')), 'id', 'name')),
 		'act_id',
 		'name',
 		'unit',
 		'cost',		
 		'quantity',
 		'sum',
-		'group',
+		/*'group',*/
 		'location',
 		array(
 			'class'=>'MyButtonColumn',

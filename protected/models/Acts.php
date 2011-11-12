@@ -37,12 +37,13 @@ class Acts extends CActiveRecord {
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('template_id, order_id, client_id, date, sum, body, is_sign', 'required'),
+			array('template_id, order_id, client_id, date, sum, num, is_sign', 'required'),
 			array('order_id, client_id, template_id', 'numerical', 'integerOnly' => true),
 			array('sum', 'numerical'),
+			array('body', 'length', 'max' => 60000),
 			array('num', 'length', 'max' => 50),
 			array('date', 'date', 'format' => 'yyyy-MM-dd', 'allowEmpty' => true),
-			array('note', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('note, body', 'default', 'setOnEmpty' => true, 'value' => null),
 //			array('date, note', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -149,9 +150,9 @@ class Acts extends CActiveRecord {
 	 */
 	public function mdlWorks($order_id, $act_id=false) {
 		if ($act_id === false)
-			$criteria = array('condition' => 'order_id=' . (int) $order_id . ' and act_id is null');
+			$criteria = array('condition' => 'order_id is null or order_id=' . (int) $order_id . ' and act_id is null');
 		else
-			$criteria = array('condition' => 'order_id=' . (int) $order_id . ' and act_id is null or act_id=' . (int) $act_id);
+			$criteria = array('condition' => 'order_id is null or order_id=' . (int) $order_id . ' and act_id is null or act_id=' . (int) $act_id);
 		return new CActiveDataProvider('Works', array(
 			'criteria' => $criteria,
 			'sort' => array('defaultOrder' => 'id DESC'),
@@ -196,13 +197,13 @@ class Acts extends CActiveRecord {
 //		parse_str($works);
 //		Dumper::d($works);die;
 		Works::model()->updateAll(array('act_id' => null), array('condition' => 'act_id=' . $this->id));
-		return Works::model()->updateByPk($works, array('act_id' => $this->id), array('condition' => 'order_id=' . (int) $this->order_id));
+		return Works::model()->updateByPk($works, array('act_id' => $this->id, 'order_id'=>  $this->order_id), array('condition' => 'client_id=' . (int) $this->client_id));
 		//return $c;
 	}
 		public function itemAlias($type, $item=NULL) {
 		$_items = array(			
 			'is_sign' => array(
-				'n' => '-', 'y'=>'Подписан'
+				'0' => 'Нет', '1'=>'Подписан'
 			),
 		);
 		if ($item == NULL)

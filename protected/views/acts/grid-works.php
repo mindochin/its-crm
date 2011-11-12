@@ -1,5 +1,5 @@
 <?php $works_sum = Works::model()->sumByOrder($mdlWorks) ?>
-<p>Работы/услуги (неактированные/в акте):</p>
+<p>Работы/услуги (без заказов/в заказе - неактированные/в акте/):</p>
 <?php
 $false=$model->isNewRecord ? 'false' : '$data->act_id=='.$model->id.' ? true : false';
 //Dumper::d($_POST);

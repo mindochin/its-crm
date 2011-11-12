@@ -148,7 +148,7 @@ class Orders extends CActiveRecord {
 		$criteria->select = 't.*,
 			(IFNULL((SELECT SUM(`sum`) FROM ' . Yii::app()->db->tablePrefix . 'invoices WHERE order_id = t.id),0)) as invoices_sum,
 			IFNULL((SELECT SUM(cost*quantity) FROM ' . Yii::app()->db->tablePrefix . 'works WHERE `order_id` = t.id),0) as works_sum,
-		IFNULL((SELECT SUM(amount) FROM ' . Yii::app()->db->tablePrefix . 'payments WHERE order_id = t.id),0) as payments_sum,
+		IFNULL((SELECT SUM(sum) FROM ' . Yii::app()->db->tablePrefix . 'payments WHERE order_id = t.id),0) as payments_sum,
 		(SELECT IFNULL(works_sum-payments_sum,0)) as finBalance,
 		(SELECT name FROM ' . Yii::app()->db->tablePrefix . 'clients WHERE id=t.client_id) as client_name';
 
@@ -216,7 +216,7 @@ class Orders extends CActiveRecord {
 			'criteria' => array(
 //				'select' => 't.*, IFNULL((SELECT SUM(cost*quantity) from ' . Yii::app()->db->tablePrefix . 'works WHERE
 //order_id=' . $order_id . ' AND act_id IS NULL ORDER BY id DESC LIMIT 1),0) as works_sum_order',
-				'condition' => 'order_id=' . $order_id . ' AND act_id IS NULL'),
+				'condition' => 'order_id is null or order_id=' . $order_id . ' AND act_id IS NULL'),
 			'sort' => array('defaultOrder' => 't.id DESC'),
 			'pagination' => array(
 				'pageSize' => Yii::app()->config->get('global.per_page'),)
@@ -227,12 +227,15 @@ class Orders extends CActiveRecord {
 	 * used in works
 	 * @return array
 	 */
-	public function listData() {
-		$l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,name,date,client.name as client_name', 'order' => 't.id DESC'));
+	public function listData($client_id=null) {
+		if (is_null($client_id)) $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,name,date,client.name as client_name', 'order' => 't.id DESC'));
+		else $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,name,date,client.name as client_name', 'order' => 't.id DESC','condition' => 'client_id=' . $client_id));
 //		CVarDumper::dump($l,20,true);die;
-		foreach ($l as $d) {
-			$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] [' . $d->client_name . '] - ' . $d->name;
+		if ($l) 
+			foreach ($l as $d) {
+				$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] [' . $d->client_name . '] - ' . $d->name;
 		}
+		else $r=null;
 		return $r;
 	}
 

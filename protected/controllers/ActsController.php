@@ -80,7 +80,7 @@ class ActsController extends Controller {
 			if ($model->save()) {
 				$works_num=0;
 				if (key_exists('Works',$_POST)) $works_num=$model->setWorks($_POST['Works']);
-				$msg = 'Акт #' . $model->id . ' для Заказа #' . $model->order_id . ' ' . $model->order->name . ' изменён. Работ/услуг по акту: '.$works_num;
+				$msg = 'Акт #' . $model->id . ' для Заказа #' . $model->order_id . ' ' . $model->order->name . ' изменён. Работ/услуг добавлено: '.$works_num;
 				Yii::app()->user->setFlash('success', $msg);
 				Yii::app()->logger->write($msg);
 				$this->redirect(array('view', 'id' => $model->id));

@@ -9,7 +9,7 @@
  * @property integer $client_id
  * @property integer $invoice_id
  * @property string $date
- * @property double $amount
+ * @property double $sum
  * @property string $note
  */
 class Payments extends CActiveRecord
@@ -39,12 +39,14 @@ class Payments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('client_id, date, sum', 'required'),
+			array('note, order_id, invoice_id', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('date', 'date', 'format' => 'yyyy-mm-dd'),
 			array('order_id, client_id, invoice_id', 'numerical', 'integerOnly'=>true),
-			array('amount', 'numerical'),
-			array('date, note', 'safe'),
+			array('sum', 'numerical'),			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, order_id, client_id, invoice_id, date, amount, note', 'safe', 'on'=>'search'),
+			array('id, order_id, client_id, invoice_id, date, sum, note', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,11 +70,11 @@ class Payments extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'order_id' => 'Заказ #',
+			'order_id' => 'Заказ',
 			'client_id' => 'Клиент',
-			'invoice_id' => 'Счет #',
+			'invoice_id' => 'Счет',
 			'date' => 'Дата',
-			'amount' => 'Сумма',
+			'sum' => 'Сумма',
 			'note' => 'Инфо',
 		);
 	}
@@ -93,9 +95,11 @@ class Payments extends CActiveRecord
 		$criteria->compare('client_id',$this->client_id);
 		$criteria->compare('invoice_id',$this->invoice_id);
 		$criteria->compare('date',$this->date,true);
-		$criteria->compare('amount',$this->amount);
+		$criteria->compare('sum',$this->sum);
 		$criteria->compare('note',$this->note,true);
 
+		$criteria->with=array('client','order');
+		
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));

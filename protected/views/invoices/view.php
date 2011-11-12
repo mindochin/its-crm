@@ -24,16 +24,13 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'id',
-		'order_id',
-		'client_id',
-		'act_id',
-		'template_id',
-		'date',
-		'sum',
-		'num',
+		'id','date','num','sum',
+		array('name' => 'order_id', 'value' => $model->order->name),
+		array('name' => 'client_id', 'value' => $model->client->name),
+		array('name' => 'template_id', 'value' => $model->tmpl->name),
+		array('name' => 'act_id', 'value' => $model->act->num),
+		array('name' => 'is_sign', 'value' => $model->itemAlias("is_sign", $model->is_sign)),	
+		array('name' => 'is_paid', 'value' => $model->itemAlias("is_paid", $model->is_paid)),				
 		'note',
-		'is_paid',
-		'is_sign',
 	),
 )); ?>

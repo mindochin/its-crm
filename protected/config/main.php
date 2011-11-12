@@ -37,7 +37,7 @@ return array(
 			'enableBizRuleData' => false,
 			'displayDescription' => true,
 			'flashSuccessKey' => 'RightsSuccess',
-			'flashErrorKey' => 'RightsError',
+			'flashErrorKey' => 'RightsError',			
 			'layout' => 'rights.views.layouts.main',
 			'appLayout' => 'application.views.layouts.main',
 //			'cssFile' => 'rights.css',
@@ -47,7 +47,7 @@ return array(
 		'user' => array(
 			'tableUsers' => '{{u_users}}',
 			'tableProfiles' => '{{u_profiles}}',
-			'tableProfileFields' => '{{u_profiles_fields}}',			
+			'tableProfileFields' => '{{u_profiles_fields}}',
 			'returnUrl' => array('/orders/admin'),
 		),
 	),
@@ -78,6 +78,10 @@ return array(
 			'class' => 'RDbAuthManager',
 			'connectionID' => 'db',
 			'defaultRoles' => array('Guest'),
+			'assignmentTable'=>'{{AuthAssignment}}',
+			'itemChildTable'=>'{{AuthItemChild}}',
+			'itemTable'=>'{{AuthItem}}',
+			'rightsTable'=>'{{Rights}}'
 		),
 		// uncomment the following to enable URLs in path-format
 

@@ -177,13 +177,13 @@ class Works extends CActiveRecord {
 //			$this->updateByPk($Works, array('act_id' => (int) $act_id), array('condition' => 'order_id=' . (int) $order_id));
 //			$q->where('order_id=:order_id and act_id=:act_id', array(':order_id' => (int) $order_id, ':act_id' => (int) $act_id));
 		
-			$q->where(array('and','order_id=:order_id', array('in','id',$Works)),array(':order_id' => (int) $order_id));
+			$q->where(array('and','order_id is null or order_id=:order_id', array('in','id',$Works)),array(':order_id' => (int) $order_id));
 		}
 		//все работы по заказу без актов
 		elseif ($act_id == false and $works !== false) {
 			parse_str($works); // получим $Works
 
-			$q->where(array('and', 'order_id=:order_id and act_id is null', array('in', 'id', $Works)), array(':order_id' => (int) $order_id));
+			$q->where(array('and', 'order_id is null or order_id=:order_id and act_id is null', array('in', 'id', $Works)), array(':order_id' => (int) $order_id));
 		}
 		//все работы по акту из заказа
 		elseif ($act_id !== false and $works == false) {

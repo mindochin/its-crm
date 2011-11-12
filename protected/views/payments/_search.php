@@ -31,8 +31,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'amount'); ?>
-		<?php echo $form->textField($model,'amount'); ?>
+		<?php echo $form->label($model,'sum'); ?>
+		<?php echo $form->textField($model,'sum'); ?>
 	</div>
 
 	<div class="row">

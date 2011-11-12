@@ -12,7 +12,8 @@
  * @property double $sum
  * @property string $num
  * @property string $note
- * @property string $is_paid
+ * @property integer $is_sign
+ * @property integer $is_paid
  */
 class Invoices extends CActiveRecord {
 
@@ -41,12 +42,13 @@ class Invoices extends CActiveRecord {
 			array('act_id, order_id, client_id, template_id, sum, is_sign, is_paid', 'required'),
 			array('order_id, client_id, template_id, act_id', 'numerical', 'integerOnly' => true),
 			array('sum', 'numerical'),
+			array('body', 'length', 'max' => 60000),
 			array('num', 'length', 'max' => 100),
-			array('date, note', 'default', 'value' => null),
+			array('date, note, body', 'default', 'value' => null),
 //			array('date, note', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, order_id, client_id, act_id, template_id, date, sum, num, note, is_paid, is_sign', 'safe', 'on' => 'search'),
+			array('id, order_id, client_id, act_id, template_id, date, sum, num, body, note, is_paid, is_sign', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -60,6 +62,7 @@ class Invoices extends CActiveRecord {
 			'order' => array(self::BELONGS_TO, 'Orders', 'order_id'),
 			'client' => array(self::BELONGS_TO, 'Clients', 'client_id'),
 			'act' => array(self::BELONGS_TO, 'Acts', 'act_id'),
+			'tmpl' => array(self::BELONGS_TO, 'InvoicesTmpl', 'template_id'),
 		);
 	}
 
@@ -77,6 +80,7 @@ class Invoices extends CActiveRecord {
 			'sum' => 'Сумма',
 			'num' => '№№',
 			'note' => 'Заметки',
+			'body' => 'Текст',
 			'is_paid' => 'Оплачен',
 			'is_sign' => 'Подписан',
 		);
@@ -100,6 +104,7 @@ class Invoices extends CActiveRecord {
 		$criteria->compare('t.date', $this->date, true);
 		$criteria->compare('sum', $this->sum);
 		$criteria->compare('num', $this->num, true);
+		$criteria->compare('body', $this->body, true);
 		$criteria->compare('note', $this->note, true);
 		$criteria->compare('is_paid', $this->is_paid);
 		$criteria->compare('is_sign', $this->is_sign);
@@ -152,16 +157,31 @@ class Invoices extends CActiveRecord {
 		$_items = array(
 			// для выбора статуса заказа
 			'is_paid' => array(
-				'n' => '-', 'p' => 'Частично','y'=>'Полностью'
+				'0' => 'Нет', '2' => 'Частично','1'=>'Полностью'
 			),
 			'is_sign' => array(
-				'n' => '-', 'y'=>'Подписан'
+				'0' => 'Нет', '1'=>'Подписан'
 			),
 		);
 		if ($item == NULL)
 			return isset($_items[$type]) ? $_items[$type] : false;
 		else
 			return isset($_items[$type][$item]) ? $_items[$type][$item] : false;
+	}
+	/**
+	 * used in payments
+	 * @return array
+	 */
+	public function listData($order_id=null) {
+		if (is_null($order_id)) $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,num,sum,date,client.name as client_name', 'order' => 't.id DESC'));
+		else $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,num,sum,date', 'order' => 't.id DESC','condition' => 'order_id=' . $order_id));
+//		CVarDumper::dump($l,20,true);die;
+		if ($l) 
+			foreach ($l as $d) {
+				$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] ['.$d->num.'] [' . $d->client->name . '] - ' . $d->sum.'руб.';
+		}
+		else $r=null;
+		return $r;
 	}
 
 //	public function listArray() //used CHTML
