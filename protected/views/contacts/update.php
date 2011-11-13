@@ -6,13 +6,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Contacts', 'url'=>array('index')),
-	array('label'=>'Create Contacts', 'url'=>array('create')),
-	array('label'=>'View Contacts', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Contacts', 'url'=>array('admin')),
+	array('label'=>'Создать', 'url'=>array('create')),
+	array('label'=>'Просмотр', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Управление', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update Contacts <?php echo $model->id; ?></h1>
+<h1>Изменить контакт #<?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

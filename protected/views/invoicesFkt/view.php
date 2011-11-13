@@ -31,6 +31,7 @@ $this->menu=array(
 		'cargo_send',
 		'cargo_send_info',
 		'cargo_addr',
-		'cargo_addr_info',		
+		'cargo_addr_info',
+		'body',
 	),
 )); ?>

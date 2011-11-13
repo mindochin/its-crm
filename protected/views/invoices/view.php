@@ -32,5 +32,6 @@ $this->menu=array(
 		array('name' => 'is_sign', 'value' => $model->itemAlias("is_sign", $model->is_sign)),	
 		array('name' => 'is_paid', 'value' => $model->itemAlias("is_paid", $model->is_paid)),				
 		'note',
+		'body',
 	),
 )); ?>

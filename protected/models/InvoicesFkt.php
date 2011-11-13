@@ -42,13 +42,14 @@ class InvoicesFkt extends CActiveRecord
 			array('act_id, order_id, client_id, template_id, sum, is_sign', 'required'),
 			array('id, order_id, client_id, act_id,template_id', 'numerical', 'integerOnly'=>true),
 			array('sum', 'numerical'),
+			array('body', 'length', 'max' => 60000),
 			array('num', 'length', 'max'=>100),
 			array('cargo_send_info, cargo_addr_info', 'length', 'max'=>500),
-			array('date, cargo_send, cargo_send, cargo_send_info, cargo_addr_info', 'default', 'value' => null),
+			array('date, cargo_send, cargo_send, cargo_send_info, cargo_addr_info, body', 'default', 'value' => null),
 			//array('date, note', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, order_id, client_id, act_id, template_id, date, sum, num, is_sign, cargo_send, cargo_addr, cargo_send_info, cargo_addr_info', 'safe', 'on'=>'search'),
+			array('id, order_id, client_id, act_id, template_id, date, sum, num, is_sign, cargo_send, cargo_addr, cargo_send_info, cargo_addr_info, body', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,6 +87,7 @@ class InvoicesFkt extends CActiveRecord
 			'cargo_addr' =>'Грузополучатель',
 			'cargo_addr_info' => 'Инфо грузополучателя',
 			'is_sign'=>'Подписан',
+			'body'=>'Текст',
 		);
 	}
 
@@ -113,6 +115,7 @@ class InvoicesFkt extends CActiveRecord
 		$criteria->compare('cargo_send_info',$this->cargo_send_info,true);
 		$criteria->compare('cargo_addr',$this->cargo_addr,true);
 		$criteria->compare('cargo_addr_info',$this->cargo_addr_info,true);
+		$criteria->compare('body',$this->body,true);	
 
 		$criteria->with = array('order', 'client', 'act');
 

@@ -6,13 +6,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Payments', 'url'=>array('index')),
-	array('label'=>'Create Payments', 'url'=>array('create')),
-	array('label'=>'View Payments', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Payments', 'url'=>array('admin')),
+	array('label'=>'Создать', 'url'=>array('create')),
+	array('label'=>'Просмотр', 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>'Управление', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update Payments <?php echo $model->id; ?></h1>
+<h1>Изменить платёж #<?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

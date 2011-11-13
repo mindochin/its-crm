@@ -60,7 +60,7 @@ class Clients extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'orders'=>array(self::HAS_MANY, 'Orders', 'client_id'),
-			'payments'=>array(self::HAS_MANY, 'Payments', 'client_id'),
+			'payments'=>array(self::HAS_MANY, 'Payments', 'client_id'),			
 		);
 	}
 

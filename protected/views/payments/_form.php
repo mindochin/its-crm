@@ -16,14 +16,15 @@
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'order_id'); ?>
-		<?php echo $form->dropDownList($model, 'order_id', array(),array('disabled'=>'disabled')); ?>
+		<?php  $orders = $model->isNewRecord ? Orders::model()->open()->listData() : Orders::model()->listData($model->client_id);
+			echo $form->labelEx($model,'order_id'); ?>
+		<?php echo $form->dropDownList($model, 'order_id', $orders, array('empty'=>'')); ?>
 		<span class="note" style="display: block" id="ajax_order_mess"></span>
 	</div>	
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'invoice_id'); ?>
-		<?php echo $form->dropDownList($model, 'invoice_id', array(),array('disabled'=>'disabled')); ?>
+		<?php echo $form->dropDownList($model, 'invoice_id', Invoices::model()->listData($model->order_id), array('encode' => false,'empty'=>'')); ?>
 	</div>
 
 	<div class="row">
@@ -62,7 +63,6 @@
 </div><!-- form -->
 <?php	Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl.'/js/common.js');
 Yii::app()->clientScript->registerScript('change_pay_client', "
-
 function change_pay_client()
 {
 	var client = $('#Payments_client_id').val();
@@ -135,6 +135,6 @@ function change_pay_order()
 	}
 	
 }
-	$('#Payments_client_id').change(function(){change_pay_client()}).change();
+	$('#Payments_client_id').change(change_pay_client);
 	$('#Payments_order_id').change(change_pay_order);
 ");

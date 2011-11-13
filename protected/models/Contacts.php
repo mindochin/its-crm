@@ -45,7 +45,8 @@ class Contacts extends CActiveRecord
 			array('name, client_id', 'required'),
 			array('client_id', 'numerical', 'integerOnly'=>true),
 			array('name, post, address, phone, email, icq', 'length', 'max'=>255),
-			array('birthday, note', 'safe'),
+			array('note, post, address, phone, email, icq, birthday', 'default', 'setOnEmpty' => true, 'value' => null),
+			array('note', 'length', 'max'=>10000),			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, post, birthday, address, phone, email, icq, note, client_id', 'safe', 'on'=>'search'),
@@ -60,6 +61,7 @@ class Contacts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'client'=>array(self::BELONGS_TO, 'Clients', 'client_id'),
 		);
 	}
 
@@ -70,15 +72,15 @@ class Contacts extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'post' => 'Post',
-			'birthday' => 'Birthday',
-			'address' => 'Address',
-			'phone' => 'Phone',
-			'email' => 'Email',
+			'name' => 'ФИО',
+			'post' => 'Должность',
+			'birthday' => 'День рождения',
+			'address' => 'Адрес',
+			'phone' => 'Телефон',
+			'email' => 'Емайл',
 			'icq' => 'Icq',
-			'note' => 'Note',
-			'client_id' => 'Client',
+			'note' => 'Доп. инфо',
+			'client_id' => 'Клиент',
 		);
 	}
 
@@ -103,9 +105,14 @@ class Contacts extends CActiveRecord
 		$criteria->compare('icq',$this->icq,true);
 		$criteria->compare('note',$this->note,true);
 		$criteria->compare('client_id',$this->client_id);
+		
+		$criteria->with=array('client');
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
+			'sort' => array('defaultOrder' => 'client.name DESC'),
+			'pagination' => array(
+				'pageSize' => Yii::app()->config->get('global.per_page'),)
 		));
 	}
 }

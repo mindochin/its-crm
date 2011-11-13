@@ -19,9 +19,9 @@ $this->menu=array(
 	'attributes'=>array(
 		'id',
 		'date',
-		'order_id',
-		'client_id',
-		'invoice_id',		
+		array('name' => 'client_id', 'value' => $model->client->name),
+		array('name' => 'order_id', 'value' => is_null($model->order_id)?$model->order_id:$model->order->name),		
+		array('name' => 'invoice_id', 'value' => is_null($model->invoice_id)?$model->invoice_id:$model->invoice->name),		
 		'sum',
 		'note',
 	),

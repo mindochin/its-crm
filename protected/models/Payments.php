@@ -60,6 +60,7 @@ class Payments extends CActiveRecord
 		return array(
 			'client'=>array(self::BELONGS_TO, 'Clients', 'client_id'),
 			'order'=>array(self::BELONGS_TO, 'Orders', 'order_id'),
+			'invoice'=>array(self::BELONGS_TO, 'Invoices', 'invoice_id'),
 		);
 	}
 
@@ -98,10 +99,13 @@ class Payments extends CActiveRecord
 		$criteria->compare('sum',$this->sum);
 		$criteria->compare('note',$this->note,true);
 
-		$criteria->with=array('client','order');
+		$criteria->with=array('client','order','invoice');
 		
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
+			'sort' => array('defaultOrder' => 't.id DESC'),
+			'pagination' => array(
+				'pageSize' => Yii::app()->config->get('global.per_page'),)
 		));
 	}
 }

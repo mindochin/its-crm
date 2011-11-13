@@ -1,7 +1,6 @@
 <?php
-
 class PaymentsController extends Controller {
-	/**
+ 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
@@ -146,13 +145,13 @@ class PaymentsController extends Controller {
 			Yii::app()->end();
 		}
 	}
-	
+
 	public function actionChangeClient() {
 		$return_msg = '';
 //		Dumper::d($_POST['order_id']);die;
 		if (Yii::app()->request->isAjaxRequest) {
 			if (is_numeric($_POST['client_id'])) {
-				$q = Orders::model()->open()->listData((int) $_POST['client_id']);
+				$q = Orders::model()->listData((int) $_POST['client_id']);
 				if (count($q) > 0) {
 					foreach ($q as $key => $value) {
 						$haOptions[] = array('value' => $key, 'text' => $value);
@@ -160,7 +159,7 @@ class PaymentsController extends Controller {
 					$return_msg = json_encode($haOptions);
 				}
 				else
-					$return_msg=json_encode('no');
+					$return_msg = json_encode('no');
 			} else {
 				$return_msg = '[{"value":"",text:"Некорректный формат запроса"}]';
 			}
@@ -170,6 +169,7 @@ class PaymentsController extends Controller {
 		}
 		echo ($return_msg);
 	}
+
 	public function actionChangeOrder() {
 		$return_msg = '';
 //		Dumper::d($_POST['order_id']);die;
@@ -183,7 +183,7 @@ class PaymentsController extends Controller {
 					$return_msg = json_encode($haOptions);
 				}
 				else
-					$return_msg=json_encode('no');
+					$return_msg = json_encode('no');
 			} else {
 				$return_msg = '[{"value":"","text":"Некорректный формат запроса"}]';
 			}
@@ -193,5 +193,4 @@ class PaymentsController extends Controller {
 		}
 		echo ($return_msg);
 	}
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 class WorksController extends Controller {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -164,9 +163,9 @@ class WorksController extends Controller {
 	function actionRecalc() {
 		$all=Works::model()->findAll('client_id=0');
 		foreach ($all as $key => $value) {
-			Dumper::d($value);
+			//Dumper::d($value);
 			$model=$this->loadModel($value->id);
-			if (!isset ($model->client_id) and $model->client_id==='0') {
+			if ($model->client_id==='0') {
 				echo $model->id.' '.$model->order->client->name;
 				echo '<br>';
 				$model->client_id=$model->order->client->id;
@@ -183,21 +182,44 @@ class WorksController extends Controller {
 //		Dumper::d($_POST['order_id']);die;
 		if (Yii::app()->request->isAjaxRequest) {
 			if (is_numeric($_POST['client_id'])) {
-				$q = Orders::model()->open()->listData((int) $_POST['client_id']);
+				$q = Orders::model()->listData((int) $_POST['client_id']);
 				if (count($q) > 0) {
 					foreach ($q as $key => $value) {
-						$haOptions[] = array('optionKey' => $key, 'optionValue' => $value);
+						$haOptions[] = array('value' => $key, 'text' => $value);
 					}
 					$return_msg = json_encode($haOptions);
 				}
 				else
-					$return_msg='null';
+					$return_msg=json_encode('no');
 			} else {
-				$return_msg = 'Некорректный формат запроса';
+				$return_msg = json_encode('Некорректный формат запроса');
 			}
 		}
 		else {
-			$return_msg = 'Некорректный формат запроса';
+			$return_msg = json_encode('Некорректный формат запроса');
+		}
+		echo ($return_msg);
+	}
+	public function actionChangeOrder() {
+		$return_msg = '';
+//		Dumper::d($_POST['order_id']);die;
+		if (Yii::app()->request->isAjaxRequest) {
+			if (is_numeric($_POST['order_id'])) {
+				$q = Acts::model()->listData((int) $_POST['order_id']);
+				if (count($q) > 0) {
+					foreach ($q as $key => $value) {
+						$haOptions[] = array('value' => $key, 'text' => $value);
+					}
+					$return_msg = json_encode($haOptions);
+				}
+				else
+					$return_msg=json_encode('no');
+			} else {
+				$return_msg = '[{"value":"","text":"Некорректный формат запроса"}]';
+			}
+		}
+		else {
+			$return_msg = '[{"value":"",text:"Некорректный формат запроса"}]';
 		}
 		echo ($return_msg);
 	}

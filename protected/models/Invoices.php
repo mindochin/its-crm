@@ -176,11 +176,12 @@ class Invoices extends CActiveRecord {
 		if (is_null($order_id)) $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,num,sum,date,client.name as client_name', 'order' => 't.id DESC'));
 		else $l = $this->with(array('client' => array('select' => 'name')))->findAll(array('select' => 'id,num,sum,date', 'order' => 't.id DESC','condition' => 'order_id=' . $order_id));
 //		CVarDumper::dump($l,20,true);die;
+		$r=array();
 		if ($l) 
 			foreach ($l as $d) {
 				$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] ['.$d->num.'] [' . $d->client->name . '] - ' . $d->sum.'руб.';
 		}
-		else $r=null;
+//		else $r=null;
 		return $r;
 	}
 

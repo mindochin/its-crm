@@ -183,7 +183,7 @@ class Acts extends CActiveRecord {
 		->findAll($criteria);
 //		CVarDumper::dump($l,20,true);die;
 		foreach ($l as $d) {
-			$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] [' . $d->client->name . '] [' . $d->order->name . '] - ' . $d->num;
+			$r[$d->id] = '[' . $d->id . '] [' . $d->date . '] [' . $d->client->name . '] [' . $d->order->name . '] - №' . $d->num;
 		}
 		return $r;
 	}

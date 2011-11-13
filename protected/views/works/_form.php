@@ -35,14 +35,17 @@
 	</div>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model, 'order_id'); ?>
-		<?php echo $form->dropDownList($model, 'order_id', array());  //Orders::model()->open()->listData(), array('encode' => false,'empty'=>'')); ?>
+		<?php $orders = $model->isNewRecord ? Orders::model()->open()->listData() : Orders::model()->listData($model->client_id);
+			echo $form->labelEx($model, 'order_id'); ?>
+		<?php echo $form->dropDownList($model, 'order_id', $orders, array('encode' => false,'empty'=>'')); ?>
+		<span class="note" style="display: block" id="ajax_order_mess"></span>
 	</div>
+	
 	<?php if (!$model->isNewRecord) {
 		?>
 		<div class="row">
 			<?php echo $form->labelEx($model, 'act_id'); ?>
-			<?php echo $form->textField($model, 'act_id'); ?>
+			<?php echo $form->dropDownList($model, 'act_id', Acts::model()->listData($model->order_id), array('encode' => false,'empty'=>'')); ?>
 		</div>
 	<?php } ?>
 	<div class="row">
@@ -83,38 +86,80 @@
 	<?php $this->endWidget(); ?>
 
 </div><!-- form -->
-<?php		Yii::app()->clientScript->registerScript('change_client', "
-function change_client()
-	{
-		var code = {
-			'client_id' : $('select[name=\"Works[client_id]\"] option:selected').val(),
-		}
-
+<?php Yii::app()->clientScript->registerScriptFile(Yii::app()->request->baseUrl.'/js/common.js');
+Yii::app()->clientScript->registerScript('change_work_client', "
+function change_work_client()
+{
+	var client = $('#Works_client_id').val();
+	var order = $('#Works_order_id');
+	if(client.length == 0) {
+		order.attr('disabled','disabled');
+		order.clearSelect();
+		$('#ajax_mess').text('');
+		change_work_order();		
+  	}
+	else {
 		$.ajax({
 			type: 'POST',
-			//dataType: 'JSON',
-			data: code,
+			dataType: 'JSON',
+			data: {client_id : client},
 			url: '" . $this->createUrl('works/changeclient') . "',
 			beforeSend: (function(msg){ $('#ajax_mess').text('ЖДИТЕ... '+msg.responseCode); }),
 			success: function(msg, code)
-			{//alert(msg);
-				if (msg!='null')
+			{//	alert(msg)			
+				if (msg!='no')
 				{
+					order.fillSelect(msg).attr('disabled','');
 					$('#ajax_mess').text('Готово!');
-					$(\"select[name='Works[order_id]'] option\").remove();
-					$.each(eval(msg),function(i,item)	{
-					$(\"select[name='Works[order_id]']\").append('<option value=\"'+item.optionKey+'\">'+item.optionValue+'</option>');
-					});
+					change_work_order();	
 				}
 				else
-				{
-					$(\"select[name='Works[order_id]'] option\").remove();
+				{					
 					$('#ajax_mess').text('Нет заказов.');
+					order.clearSelect();
+					change_work_order();
 				}				
 			},
 			error: function(msg, stat){ $('#ajax_mess').text('ОШИБКА = '+eval(msg.responseCode)+' = '+stat); },
-		});
+		});		
 	}
+	
+}
+function change_work_order()
+{
+	var order = $('#Works_order_id').val();
+	var act = $('#Works_act_id');
+	
+	if(order==null||order.length == 0) {
+			act.attr('disabled','disabled');
+			act.clearSelect();
+			$('#ajax_order_mess').text('');
+		}	
+	else {
+		$.ajax({
+			type: 'POST',
+			dataType: 'JSON',
+			data: {order_id:order},
+			url: '" . $this->createUrl('works/changeorder') . "',
+			beforeSend: (function(msg){ $('#ajax_order_mess').text('ЖДИТЕ... '+msg.responseCode); }),
+			success: function(msg, code)
+			{
+				if (msg!='no')
+				{
+					act.fillSelect(msg).attr('disabled','');					
+					$('#ajax_order_mess').text('Готово!');
+				}
+				else
+				{					
+					act.clearSelect();
+					$('#ajax_order_mess').text('Нет счетов.');			
+				}								
+			},
+			error: function(msg, stat){ $('#ajax_order_mess').text('ОШИБКА = '+eval(msg.responseCode)+' = '+stat); },
+		});
+	}	
+}
+	$('#Works_client_id').change(change_work_client);
+	$('#Works_order_id').change(change_work_order);
 
-	$('select[name=\"Works[client_id]\"]').change(change_client);
 ");
