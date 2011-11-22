@@ -16,7 +16,7 @@
 	</div>
 	
 	<div class="row">
-		<?php  $orders = $model->isNewRecord ? Orders::model()->open()->listData() : Orders::model()->listData($model->client_id);
+		<?php  $orders = $model->isNewRecord ? Orders::model()->open()->listData($model->client_id) : Orders::model()->listData($model->client_id);
 			echo $form->labelEx($model,'order_id'); ?>
 		<?php echo $form->dropDownList($model, 'order_id', $orders, array('empty'=>'')); ?>
 		<span class="note" style="display: block" id="ajax_order_mess"></span>
@@ -55,7 +55,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -103,9 +103,9 @@ class Works extends CActiveRecord {
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('date', $this->date, true);
-		$criteria->compare('client_id', $this->client_id);
-		$criteria->compare('order_id', $this->order_id);
-		$criteria->compare('act_id', $this->act_id);
+		$criteria->compare('t.client_id', $this->client_id);
+		$criteria->compare('t.order_id', $this->order_id);
+		$criteria->compare('t.act_id', $this->act_id);
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('unit', $this->unit, true);
 		$criteria->compare('cost', $this->cost, true);
@@ -114,7 +114,7 @@ class Works extends CActiveRecord {
 		$criteria->compare('location', $this->location, true);
 		$criteria->compare('sum', $this->sum, true);
 
-		$criteria->select = '*, (cost*quantity) as sum';
+		$criteria->select = '*, (cost*quantity) as sum, SUM(cost*quantity) as all_sum';
 
 		$criteria->with=array('order','client','act');
 		

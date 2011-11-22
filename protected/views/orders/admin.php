@@ -50,7 +50,7 @@ $('.search-form form').submit(function(){
 		'id',
 		'date',
 		'name',
-		array('name'=>'client_id','value'=>'$data->client_name','filter'=> CHtml::listData(Clients::model()->findAll(), 'id', 'name')),
+		array('name'=>'client_id','value'=>'$data->client->name','filter'=> CHtml::listData(Clients::model()->findAll(), 'id', 'name')),
 		array('name'=>'status','value'=>'Orders::model()->itemAlias("fstatus",$data->status)','filter'=>$model->itemAlias("fstatus")),
 		array('name'=>'works_sum','value'=>'$data->works_sum','filter'=>false),
 		array('name'=>'invoices_sum','value'=>'$data->invoices_sum','filter'=>false),

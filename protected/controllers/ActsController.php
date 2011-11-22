@@ -54,6 +54,7 @@ class ActsController extends Controller {
 						$this->redirect(array('view', 'id' => $model->id));
 				}
 			}
+			if ($model->order->fixpay !==null) $model->sum = $model->order->fixpay;
 			$model->date = date('Y-m-d');
 			$model->client_id = $model->order->client->id;
 			$model->num = $model->getLastNum() + 1;
@@ -146,7 +147,9 @@ class ActsController extends Controller {
 
 	public function actionHtml($id) {
 		$model = $this->loadModel($id);
-		$this->layout = false; //contract/template_pdf';
+		$this->layout = false;
+		if(is_null($model->body)) $model->body=$this->_prepare_body($model);
+		///contract/template_pdf';
 		$this->render('html', array('model' => $model));
 	}
 
@@ -178,27 +181,53 @@ class ActsController extends Controller {
 	 */
 	public function actionChangeBody() {
 		if (Yii::app()->request->isAjaxRequest) {
-			$return_msg = '';
-
+			return $this->_prepare_body();
+		}
+		else {
+			throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+		}
+	}
+	private function _prepare_body($mdl=null) {
+		$return_msg = '';
+		if(is_null($mdl)) {
 			if (!isset($_POST['act_id']) and !isset($_POST['order_id']) and empty($_POST['works']) and !isset($_POST['client_id']) and !isset($_POST['template_id'])
 					and !isset($_POST['date']) and !isset($_POST['sum']) and !isset($_POST['num']))
 				die("Необходимых данных недостаточно </br>");
+			$date=$_POST['date'];
+			$sum=$_POST['sum'];
+			$num=(int) $_POST['num'];
+			$act_id= (int) $_POST['act_id'];
+			$order_id=(int) $_POST['order_id'];
+			$works=$_POST['works'];
+			$client_id=(int) $_POST['client_id'];
+			$template_id=(int) $_POST['template_id'];
+		}
+		else {
+			$date=$mdl->date;
+			$sum=$mdl->sum;
+			$num=$mdl->num;
+			$act_id= $mdl->id;
+			$order_id=$mdl->order_id;
+			$works=false;
+			$client_id=$mdl->client_id;
+			$template_id=$mdl->template_id;
+		}
+			
+			$data['act']['date'] = $date;
+			$data['act']['sum'] = $sum;
+			$data['act']['num'] = $num;
 
-			$data['act']['date'] = $_POST['date'];
-			$data['act']['sum'] = $_POST['sum'];
-			$data['act']['num'] = (int) $_POST['num'];
-
-			if (!is_array($order_pos = Works::model()->worksByOrder($_POST['order_id'], $_POST['act_id'], $_POST['works'])))
+			if (!is_array($order_pos = Works::model()->worksByOrder($order_id, $act_id, $works)))
 				$return_msg .= "Невозможно получить список работ </br>";
 			$data['works'] = $order_pos;
 //			parse_str($_POST['works']);
 //			Dumper::d($Works);die;
-			$data['contract'] = Contracts::model()->findByPk((int) $_POST['order_id'], array('select' => 'date, num'));
+			$data['contract'] = Contracts::model()->findByPk($order_id, array('select' => 'date, num'));
 //			if (is_null($data['contract'] = Contracts::model()->findByPk((int) $_POST['order_id'], array('select' => 'date, num')))) {
 //				$return_msg .= "Невозможно получить данные договора \n";
 //			}
 
-			if (is_null($data['client'] = Clients::model()->findByPk((int) $_POST['client_id']))) {
+			if (is_null($data['client'] = Clients::model()->findByPk($client_id))) {
 				$return_msg .= "Невозможно получить данные клиента \n";
 			}
 
@@ -206,7 +235,7 @@ class ActsController extends Controller {
 				$return_msg .= "Невозможно получить основные параметры \n";
 			}
 
-			$body = $this->_tmpl_body($data, Acts::model()->get_act_tmpl($_POST['template_id']));
+			$body = $this->_tmpl_body($data, Acts::model()->get_act_tmpl($template_id));
 			if ($body == '')
 				$return_msg .= "Невозможно сформировать шаблон \n";
 
@@ -214,10 +243,6 @@ class ActsController extends Controller {
 				echo ($body);
 			else
 				echo ($return_msg);
-		}
-		else {
-			throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
-		}
 	}
 
 	private function _tmpl_body($data, $tmpl) {//printvar($data);

@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/css/' . Yii::app()->config->get('global.style') . '/print.css'); ?>
-	<title>Договор ID#<?php echo $model->id ?></title>
+	<title>Акт выполненных работ ID#<?php echo $model->id ?></title>
 </head>
 <body>
 	<div class="">

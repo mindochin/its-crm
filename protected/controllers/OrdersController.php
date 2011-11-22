@@ -67,14 +67,46 @@ class OrdersController extends Controller {
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		// если вдруг поменялся клиент - надо поменять у всех документов
+		$old_client = $model->client_id;
 
 		if (isset($_POST['Orders'])) {
 			$model->attributes = $_POST['Orders'];
-			if ($model->save()) {
-				$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' изменён';
-				Yii::app()->user->setFlash('success', $msg);
-				Yii::app()->logger->write($msg);
-				$this->redirect(array('view', 'id' => $model->id));
+			if ($model->validate()) {
+				if ($old_client != $model->client_id) {
+					$transaction = Yii::app()->db->beginTransaction();
+					try {
+						Contracts::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						Acts::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						Invoices::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						InvoicesFkt::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						Works::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						Payments::model()->updateAll(array('client_id' => $model->client_id), 'order_id=:id', array(':id' => $id));
+						$model->save();
+						$transaction->commit();
+
+						$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' изменён';
+						Yii::app()->user->setFlash('success', $msg);
+						Yii::app()->logger->write($msg);
+						
+						$msg1 = 'Внимание! У заказа #' . $model->id . ' - ' . $model->name . ' изменился клиент! Перегенерируйте текст документов (договора & etc)';
+						Yii::app()->user->setFlash('notice', $msg1);
+						Yii::app()->logger->write($msg1);
+						
+						$this->redirect(array('view', 'id' => $model->id));
+					} catch (Exception $e) {
+						$transaction->rollBack();
+						$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' - изменение не удалось';
+						Yii::app()->user->setFlash('error', $msg);
+						Yii::app()->logger->write($msg);
+					}
+				} else {
+					$model->save();
+					$msg = 'Заказ #' . $model->id . ' - ' . $model->name . ' для ' . $model->client->name . ' изменён';
+					Yii::app()->user->setFlash('success', $msg);
+					Yii::app()->logger->write($msg);
+					$this->redirect(array('view', 'id' => $model->id));
+				}
 			}
 		}
 
@@ -92,7 +124,7 @@ class OrdersController extends Controller {
 		if (Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
 
-			$model=$this->loadModel($id);
+			$model = $this->loadModel($id);
 			if (Payments::model()->count('order_id=' . $id) !== 0) {
 				$transaction = Yii::app()->db->beginTransaction();
 				try {
@@ -106,8 +138,8 @@ class OrdersController extends Controller {
 
 					$model->delete();
 
-//					$transaction->commit();
-					
+					$transaction->commit();
+
 					Yii::app()->user->setFlash('success', $msg);
 					Yii::app()->logger->write($msg);
 				} catch (Exception $e) {
@@ -135,7 +167,7 @@ class OrdersController extends Controller {
 	public function actionAdmin() {
 		$model = new Orders('search');
 		$model->unsetAttributes();  // clear any default values
-		$model->status='open';
+		$model->status = 'open';
 		if (isset($_GET['Orders']))
 			$model->attributes = $_GET['Orders'];
 

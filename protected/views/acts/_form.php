@@ -64,7 +64,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model, 'sum'); ?>
-		<?php if ($model->order->fixpay ==null) echo $form->textField($model, 'sum'); else echo $form->textField($model, 'sum',array('readonly'=>'readonly')); ?>
+		<?php echo $form->textField($model, 'sum'); ?>
 	</div>
 	
 <?php Yii::app()->clientScript->registerScript('visible-body', "
@@ -134,7 +134,7 @@ function recalc()
 			if (!isNaN(sum)) totals += sum;
 		}
 	);
-	$('input[name=\"Acts[sum]\"]').val(totals.toFixed(2));
+	$('#Acts_sum').val(totals.toFixed(2));
 }
 jQuery('body').undelegate(':checkbox','click').delegate(':checkbox','click',recalc);
 ");

@@ -7,6 +7,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Управление договорами', 'url'=>array('admin')),
+	array('label'=>'Просмотр', 'url'=>array('view')),
 );
 ?>
 

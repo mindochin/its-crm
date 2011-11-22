@@ -104,17 +104,7 @@ return array(
 //			'class' => 'CFileCache',
 //		),
 		// uncomment the following to use a MySQL database
-		'db' => array(
-			'connectionString' => 'mysql:host=localhost;dbname=its-crm-new',
-			'emulatePrepare' => true,
-			'username' => 'vlad',
-			'password' => 'q3dmm6',
-			'charset' => 'utf8',
-			'tablePrefix' => 'itscrm_',
-			'enableParamLogging' => true,
-			'enableProfiling' => true,
-			'schemaCachingDuration' => 3600
-		),
+		'db' => include_once 'dbl.php',
 		'errorHandler' => array(
 // use 'site/error' action to display errors
 			'errorAction' => 'site/error',
@@ -144,6 +134,6 @@ return array(
 // using Yii::app()->params['paramName']
 	'params' => array(
 // this is used in contact page
-		'adminEmail' => 'webmaster@example.com',
+		'adminEmail' => 'mindochin@yandex.ru',
 	),
 );

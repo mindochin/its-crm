@@ -149,9 +149,11 @@ class Orders extends CActiveRecord {
 			(IFNULL((SELECT SUM(`sum`) FROM ' . Yii::app()->db->tablePrefix . 'invoices WHERE order_id = t.id),0)) as invoices_sum,
 			IFNULL((SELECT SUM(cost*quantity) FROM ' . Yii::app()->db->tablePrefix . 'works WHERE `order_id` = t.id),0) as works_sum,
 		IFNULL((SELECT SUM(sum) FROM ' . Yii::app()->db->tablePrefix . 'payments WHERE order_id = t.id),0) as payments_sum,
-		(SELECT IFNULL(works_sum-payments_sum,0)) as finBalance,
-		(SELECT name FROM ' . Yii::app()->db->tablePrefix . 'clients WHERE id=t.client_id) as client_name';
+		(SELECT IFNULL(works_sum-payments_sum,0)) as finBalance';
+//		(SELECT name FROM ' . Yii::app()->db->tablePrefix . 'clients WHERE id=t.client_id) as client_name';
 
+//		$criteria->with=array('client');
+		
 		if ($this->status == 'open')
 			$criteria->addNotInCondition('status', array('12', '13')); //закрыт или отменен
  elseif ($this->status !== '')

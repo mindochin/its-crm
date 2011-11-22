@@ -2,3 +2,4 @@
 /nbproject
 /assets
 /protected/runtime
+/protected/config/dbh.php

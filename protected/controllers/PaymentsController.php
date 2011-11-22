@@ -35,13 +35,22 @@ class PaymentsController extends Controller {
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+		if (isset($_GET['byorder']) and is_numeric($_GET['byorder'])) {
+			$model->order_id = (int) $_GET['byorder'];
+			$model->client_id = $model->order->client_id;
+		}
+			
 		if (isset($_POST['Payments'])) {
 			$model->attributes = $_POST['Payments'];
 			if ($model->save()) {
 				$msg = 'Платёж #' . $model->id . ' для Заказа #' . $model->order_id . ' ' . $model->order->name . ' создан';
 				Yii::app()->user->setFlash('success', $msg);
 				Yii::app()->logger->write($msg);
-				$this->redirect(array('view', 'id' => $model->id));
+				
+				if (isset($model->order_id))
+						$this->redirect(array('orders/view', 'id' => $model->order_id));
+					else
+						$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
